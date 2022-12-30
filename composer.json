@@ -1,17 +1,17 @@
 {
-    "name": ":vendor_slug/:package_slug",
-    "description": ":package_description",
+    "name": "pinetco-dev/laravel-impersonate",
+    "description": "This is my package laravel-impersonate",
     "keywords": [
-        ":vendor_name",
+        "pinetco-dev",
         "laravel",
-        ":package_slug"
+        "laravel-impersonate"
     ],
-    "homepage": "https://github.com/:vendor_slug/:package_slug",
+    "homepage": "https://github.com/pinetco-dev/laravel-impersonate",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": "author@domain.com",
+            "name": "Pooja Jadav",
+            "email": "contact2pooja36@gmail.com",
             "role": "Developer"
         }
     ],
@@ -35,13 +35,13 @@
     },
     "autoload": {
         "psr-4": {
-            "VendorName\\Skeleton\\": "src",
-            "VendorName\\Skeleton\\Database\\Factories\\": "database/factories"
+            "Pinetcodev\\LaravelImpersonate\\": "src",
+            "Pinetcodev\\LaravelImpersonate\\Database\\Factories\\": "database/factories"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "VendorName\\Skeleton\\Tests\\": "tests"
+            "Pinetcodev\\LaravelImpersonate\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -61,10 +61,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "VendorName\\Skeleton\\SkeletonServiceProvider"
+                "Pinetcodev\\LaravelImpersonate\\LaravelImpersonateServiceProvider"
             ],
             "aliases": {
-                "Skeleton": "VendorName\\Skeleton\\Facades\\Skeleton"
+                "LaravelImpersonate": "Pinetcodev\\LaravelImpersonate\\Facades\\LaravelImpersonate"
             }
         }
     },
