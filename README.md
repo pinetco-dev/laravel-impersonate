@@ -18,7 +18,7 @@ composer require pinetco-dev/laravel-impersonate
 You can publish and run the migrations with:
 
 ```bash
-php artisan vendor:publish --tag="laravel-impersonate-migrations"
+php artisan vendor:publish --tag="impersonate-migrations"
 php artisan migrate
 ```
 
