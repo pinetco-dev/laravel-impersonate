@@ -4,6 +4,7 @@ namespace Pinetcodev\LaravelImpersonate;
 
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
+use Illuminate\View\Compilers\BladeCompiler;
 use Pinetcodev\LaravelImpersonate\Commands\LaravelImpersonateCommand;
 use Pinetcodev\LaravelImpersonate\Http\Controllers\ImpersonateController;
 use Spatie\LaravelPackageTools\Package;
@@ -26,6 +27,8 @@ class LaravelImpersonateServiceProvider extends PackageServiceProvider
             ->hasViews()
             ->hasMigration('create_impersonates_table')
             ->hasCommand(LaravelImpersonateCommand::class);
+
+        $this->registerBladeDirectives();
     }
 
     public function packageRegistered()
@@ -47,12 +50,33 @@ class LaravelImpersonateServiceProvider extends PackageServiceProvider
 
     private function configureAuthorization()
     {
-        Gate::define('accessToImpersonate', function ($user) {
-            return in_array($user->email, config('impersonate.authorization_emails'));
+        Gate::define('takeImpersonate', function ($user) {
+            return can_impersonate();
         });
 
-        Gate::define('accessToLeaveImpersonate', function ($user, $impersonate, $sessionKey) {
+        Gate::define('leaveImpersonate', function ($user, $impersonate, $sessionKey) {
             return session()->has($sessionKey) && $user->id == $impersonate->impersonated_id;
+        });
+    }
+
+    private function registerBladeDirectives()
+    {
+        $this->app->afterResolving('blade.compiler', function (BladeCompiler $bladeCompiler) {
+            $bladeCompiler->directive('impersonating', function () {
+                return '<?php if (is_impersonating()) : ?>';
+            });
+
+            $bladeCompiler->directive('endImpersonating', function () {
+                return '<?php endif; ?>';
+            });
+
+            $bladeCompiler->directive('canImpersonate', function () {
+                return '<?php if (can_impersonate()) : ?>';
+            });
+
+            $bladeCompiler->directive('endCanImpersonate', function () {
+                return '<?php endif; ?>';
+            });
         });
     }
 }

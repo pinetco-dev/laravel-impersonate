@@ -47,7 +47,13 @@ class ImpersonationNotification extends Notification
         return (new MailMessage)
             ->subject(__('Impersonation || :app', ['app' => config('app.name')]))
             ->markdown('impersonate::mails.impersonation', [
-                'link' => URL::signedRoute('impersonate.log-in', [$impersonate->getRouteKey()]),
+                'creator' => $notifiable,
+                'impersonateUser' => $this->impersonateUser,
+                'link' => URL::temporarySignedRoute('impersonate.log-in',
+                    now()->addMinutes(config('impersonate.lifetime')),
+                    [$impersonate->getRouteKey()]),
+                'impersonate' => $impersonate,
+                'impersonateLifetime' => config('impersonate.lifetime'),
             ]);
     }
 

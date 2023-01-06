@@ -17,10 +17,12 @@ class ImpersonateController extends Controller
 
     public function take(User $user)
     {
-        Gate::authorize('accessToImpersonate', [auth()->user()]);
+        Gate::authorize('takeImpersonate', [auth()->user()]);
         auth()->user()->notify(new ImpersonationNotification($user));
 
-        return redirect()->to($this->getTakeRedirectTo());
+        $cssPath = __DIR__.'/../../../dist/css/impersonate.css';
+
+        return view('impersonate::success', compact('cssPath'));
     }
 
     public function logIn(Request $request, Impersonate $impersonate)
@@ -32,7 +34,11 @@ class ImpersonateController extends Controller
         session()->put($this->getSessionKey(), $impersonate->getRouteKey());
         Auth::guard($this->getSessionGuard())->loginUsingId($impersonate->impersonated_id);
 
-        $impersonate->update(['logged_in' => now()]);
+        $impersonate->update([
+            'logged_in' => now(),
+            'ip_address' => $request->ip(),
+            'user_agent' => $request->header('user-agent'),
+        ]);
 
         return redirect()->to($this->getTakeRedirectTo());
     }
@@ -41,7 +47,7 @@ class ImpersonateController extends Controller
     {
         $sessionKey = $this->getSessionKey();
 
-        Gate::authorize('accessToLeaveImpersonate', [$impersonate, $sessionKey]);
+        Gate::authorize('leaveImpersonate', [$impersonate, $sessionKey]);
 
         Auth::guard($this->getSessionGuard())->loginUsingId($impersonate->user_id);
         $impersonate->update(['logouted_at' => now()]);

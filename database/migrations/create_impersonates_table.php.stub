@@ -15,6 +15,8 @@ return new class extends Migration
             $table->foreignId('user_id');
             $table->dateTime('logged_in')->nullable();
             $table->dateTime('logouted_at')->nullable();
+            $table->text('ip_address')->nullable();
+            $table->text('user_agent')->nullable();
             $table->timestamps();
         });
     }
