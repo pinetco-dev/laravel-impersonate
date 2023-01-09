@@ -58,9 +58,9 @@ There are some blade directives available.
 #### When the user is impersonated
 ```php
 @impersonating
-<a href="{{ route('impersonate.leave', ['impersonate' => get_impersonate_session_value()]) }}">
-    Leave impersonation
-</a>
+    <a href="{{ route('impersonate.leave', ['impersonate' => get_impersonate_session_value()]) }}">
+        Leave impersonation
+    </a>
 @endImpersonating
 ```
 
