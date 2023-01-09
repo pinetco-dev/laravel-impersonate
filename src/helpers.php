@@ -34,11 +34,22 @@ if (! function_exists('can_impersonate')) {
     /**
      * Check whether the current user is authorized to impersonate.
      *
-     * @param  null  $guard
      * @return bool
      */
     function can_impersonate(): bool
     {
-        return auth()->check() && in_array(auth()->user()->email, config('impersonate.authorization_emails'));
+        return auth()->check() && in_array(auth()->user()->email, config('impersonate.authorized_emails'));
+    }
+}
+
+if (! function_exists('get_impersonate_session_value')) {
+    /**
+     * Will get stored session value for impersonate.
+     *
+     * @return string
+     */
+    function get_impersonate_session_value(): string
+    {
+        return session()->get(config('impersonate.session_key'));
     }
 }

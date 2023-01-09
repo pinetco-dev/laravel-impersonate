@@ -18,7 +18,7 @@
             <p class="text-2xl text-black mt-10 text-center font-bold">{{ __('Danke! Dein Demo-Termin wurde erfolgreich gebucht') }}</p>
         </div>
         <div class="flex-shrink-0 flex items-center justify-center space-x-4">
-            <a type="button" href="{{ config('impersonate.take_redirect_to') }}">
+            <a type="button" href="{{ config('impersonate.after_request_redirection') }}">
                 {{ __('Okay') }}
             </a>
         </div>

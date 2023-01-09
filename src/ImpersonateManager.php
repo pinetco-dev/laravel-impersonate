@@ -25,9 +25,9 @@ trait ImpersonateManager
     public function getTakeRedirectTo(): string
     {
         try {
-            $uri = route(config('impersonate.take_redirect_to'));
+            $uri = route(config('impersonate.after_request_redirection'));
         } catch (\InvalidArgumentException $e) {
-            $uri = config('impersonate.take_redirect_to');
+            $uri = config('impersonate.after_request_redirection');
         }
 
         return $uri;

@@ -5,7 +5,7 @@ namespace Pinetcodev\LaravelImpersonate\Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Pinetcodev\LaravelImpersonate\Models\Impersonate;
 
-class ModelFactory extends Factory
+class ImpersonateFactory extends Factory
 {
     protected $model = Impersonate::class;
 
