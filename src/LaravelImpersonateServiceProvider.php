@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\View\Compilers\BladeCompiler;
 use Pinetcodev\LaravelImpersonate\Commands\LaravelImpersonateCommand;
 use Pinetcodev\LaravelImpersonate\Http\Controllers\ImpersonateController;
+use Pinetcodev\LaravelImpersonate\Http\Middleware\ProtectFromImpersonation;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -28,6 +29,7 @@ class LaravelImpersonateServiceProvider extends PackageServiceProvider
             ->hasMigration('create_impersonates_table')
             ->hasCommand(LaravelImpersonateCommand::class);
 
+        $this->registerMiddleware();
         $this->registerBladeDirectives();
     }
 
@@ -78,5 +80,10 @@ class LaravelImpersonateServiceProvider extends PackageServiceProvider
                 return '<?php endif; ?>';
             });
         });
+    }
+
+    private function registerMiddleware()
+    {
+        $this->app['router']->aliasMiddleware('impersonate.protect', ProtectFromImpersonation::class);
     }
 }
