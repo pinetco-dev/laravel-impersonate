@@ -24,7 +24,7 @@ php artisan migrate
 ```
 
 ## Usage
-The package comes with a configuration file.
+The package comes with a configuration file. Where you can config setting as your need.
 
 Publish it with the following command:
 
