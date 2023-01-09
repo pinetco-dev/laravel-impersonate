@@ -6,6 +6,7 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/pinetco-dev/laravel-impersonate.svg?style=flat-square)](https://packagist.org/packages/pinetco-dev/laravel-impersonate)
 
 After deploying application to production, We may need to **"impersonate"** another user of application which debug problems and scenario generation. From this package, you can use impersonation functionality in your laravel application.
+Additional process of this 
 
 ## Installation
 
@@ -23,26 +24,44 @@ php artisan migrate
 ```
 
 ## Usage
-
-```php
-$laravelImpersonate = new Pinetcodev\LaravelImpersonate();
-echo $laravelImpersonate->echoPhrase('Hello, Pinetcodev!');
-```
-
-## Usage
 The package comes with a configuration file.
 
 Publish it with the following command:
 
 ```bash
-php artisan vendor:publish --tag="laravel-impersonate-config"
+php artisan vendor:publish --tag="impersonate-config"
 ```
 
-This is the contents of the published config file:
+Finally, take care of the routing: You must configure at what url impersonate webhooks should hit your app. In the routes file of your app you must pass that route to Route::impersonation:
+```bash
+Route::impersonation();
+```
+
+### Middleware
+You can use the middleware `impersonate.protect` to protect your routes against user impersonation.
+This middleware can be useful when you want to protect specific pages
 
 ```php
-return [
-];
+Router::get('/payment', function() {
+    echo "Can't be accessed by an impersonator";
+})->middleware('impersonate.protect');
+```
+
+### Blade
+There are some blade directives available.
+#### When the user can impersonate
+```php
+@canImpersonate
+    <a href="{{ route('impersonate', $user) }}">Login</a>
+@endCanImpersonate
+```
+#### When the user is impersonated
+```php
+@impersonating
+<a href="{{ route('impersonate.leave', ['impersonate' => get_impersonate_session_value()]) }}">
+    Leave impersonation
+</a>
+@endImpersonating
 ```
 
 ## Testing
