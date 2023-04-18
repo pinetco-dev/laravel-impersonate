@@ -5,8 +5,9 @@
 [![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/pinetco-dev/laravel-impersonate/Fix%20PHP%20code%20style%20issues?label=code%20style)](https://github.com/pinetco-dev/laravel-impersonate/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/pinetco-dev/laravel-impersonate.svg?style=flat-square)](https://packagist.org/packages/pinetco-dev/laravel-impersonate)
 
-After deploying application to production, We may need to **"impersonate"** another user of application which debug problems and scenario generation. From this package, you can use impersonation functionality in your laravel application.
-Additional process of this 
+Laravel Impersonate is a package that allows you to easily and securely impersonate other users within a Laravel
+application. This can be particularly useful for debugging problems and generating scenarios after deploying your
+application to production.
 
 ## Installation
 
@@ -16,7 +17,7 @@ You can install the package via composer:
 composer require pinetco-dev/laravel-impersonate
 ```
 
-You can publish and run the migrations with:
+Once you have installed the package, you can publish and run the migrations with the following command:
 
 ```bash
 php artisan vendor:publish --tag="impersonate-migrations"
@@ -24,47 +25,49 @@ php artisan migrate
 ```
 
 ## Usage
-The package comes with a configuration file. Where you can config setting as your need.
 
-Publish it with the following command:
+The package comes with a configuration file that allows you to customize its settings according to your needs. You can
+publish the configuration file using the following command:
 
 ```bash
 php artisan vendor:publish --tag="impersonate-config"
 ```
 
-Finally, take care of the routing: You must configure at what url impersonate webhooks should hit your app. In the routes file of your app you must pass that route to Route::impersonation:
+After publishing the configuration file, you need to specify the URL where impersonate webhooks should hit your
+application. To do this, add the following line to your routes file:
 ```bash
 Route::impersonation();
 ```
 
 ### Middleware
-You can use the middleware `impersonate.protect` to protect your routes against user impersonation.
-This middleware can be useful when you want to protect specific pages
 
+If you want to protect specific pages against user impersonation, you can use the impersonate.protect middleware. For
+example:
 ```php
 Router::get('/payment', function() {
-    echo "Can't be accessed by an impersonator";
+    echo "This page cannot be accessed by an impersonator.";
 })->middleware('impersonate.protect');
 ```
 
 ### Blade
-There are some blade directives available.
+There are some blade directives available that allow you to customize the behavior of your application depending on whether the user can impersonate or is being impersonated.
 #### When the user can impersonate
 ```php
 @canImpersonate
-    <a href="{{ route('impersonate', $user) }}">Login</a>
+    <a href="{{ route('impersonate', $user) }}">Login as {{ $user->name }}</a>
 @endCanImpersonate
 ```
-#### When the user is impersonated
+#### When the user is being impersonated
 ```php
 @impersonating
     <a href="{{ route('impersonate.leave', ['impersonate' => get_impersonate_session_value()]) }}">
-        Leave impersonation
+        Leave impersonation mode
     </a>
 @endImpersonating
 ```
 
 ## Testing
+You can run the tests using the following command:
 
 ```bash
 composer test

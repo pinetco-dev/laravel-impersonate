@@ -1,6 +1,6 @@
 {
     "name": "pinetco-dev/laravel-impersonate",
-    "description": "This is my package laravel-impersonate",
+    "description": "Laravel Impersonate - A package that allows for easy and secure user impersonation within a Laravel application.",
     "keywords": [
         "pinetco-dev",
         "laravel",
