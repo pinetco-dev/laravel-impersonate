@@ -39,6 +39,7 @@ class LaravelImpersonateServiceProvider extends PackageServiceProvider
             $baseUrl = config('impersonate.route_path_prefix');
             Route::prefix($baseUrl)
                 ->middleware(config('impersonate.middleware'))
+                ->middleware('throttle:3,1')
                 ->group(function () {
                     Route::get('take/{user}', [ImpersonateController::class, 'take'])
                         ->name('impersonate');
