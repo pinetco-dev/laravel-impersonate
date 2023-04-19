@@ -21,8 +21,6 @@ if (! function_exists('uuid')) {
 if (! function_exists('is_impersonating')) {
     /**
      * Check whether the current user is being impersonated.
-     *
-     * @return bool
      */
     function is_impersonating(): bool
     {
@@ -33,8 +31,6 @@ if (! function_exists('is_impersonating')) {
 if (! function_exists('can_impersonate')) {
     /**
      * Check whether the current user is authorized to impersonate.
-     *
-     * @return bool
      */
     function can_impersonate(): bool
     {
@@ -45,8 +41,6 @@ if (! function_exists('can_impersonate')) {
 if (! function_exists('get_impersonate_session_value')) {
     /**
      * Will get stored session value for impersonate.
-     *
-     * @return string
      */
     function get_impersonate_session_value(): string
     {

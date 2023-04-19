@@ -86,8 +86,6 @@ class TestCase extends Orchestra
     }
 
     /**
-     * @param  string  $view
-     * @param  array  $with
      * @return  void
      */
     protected function makeView(string $view = 'impersonate', array $with = [])
