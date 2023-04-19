@@ -20,9 +20,7 @@ class ImpersonateController extends Controller
         Gate::authorize('takeImpersonate', [auth()->user()]);
         auth()->user()->notify(new ImpersonationNotification($user));
 
-        $cssPath = __DIR__.'/../../../dist/css/impersonate.css';
-
-        return view('impersonate::success', compact('cssPath'));
+        return view('impersonate::success', ['user' => $user, 'authUser' => auth()->user()]);
     }
 
     public function logIn(Request $request, Impersonate $impersonate)
