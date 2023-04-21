@@ -67,7 +67,7 @@ return [
    | The URI to redirect after requesting an impersonation.
    |
    */
-    'after_request_redirection' => url()->previous(),
+    'after_request_redirection' => null,
 
     /*
    |--------------------------------------------------------------------------
