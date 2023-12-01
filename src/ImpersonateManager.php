@@ -4,7 +4,7 @@ namespace Pinetcodev\LaravelImpersonate;
 
 trait ImpersonateManager
 {
-    public function getSessionKey(): string
+    public function getSessionKey(): ?string
     {
         return config('impersonate.session_key');
     }

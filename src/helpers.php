@@ -42,7 +42,7 @@ if (! function_exists('get_impersonate_session_value')) {
     /**
      * Will get stored session value for impersonate.
      */
-    function get_impersonate_session_value(): string
+    function get_impersonate_session_value(): ?string
     {
         return session()->get(config('impersonate.session_key'));
     }
