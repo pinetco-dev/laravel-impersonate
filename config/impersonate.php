@@ -1,5 +1,8 @@
 <?php
 
+use Pinetcodev\LaravelImpersonate\Resolvers\IpAddressResolver;
+use Pinetcodev\LaravelImpersonate\Resolvers\UserAgentResolver;
+
 return [
 
     /*
@@ -89,4 +92,17 @@ return [
     |
     */
     'lifetime' => 60,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Audit Resolvers
+    |--------------------------------------------------------------------------
+    |
+    | Define the IP Address, User Agent and URL resolver implementations.
+    |
+    */
+    'resolvers' => [
+        'ip_address' => IpAddressResolver::class,
+        'user_agent' => UserAgentResolver::class,
+    ],
 ];

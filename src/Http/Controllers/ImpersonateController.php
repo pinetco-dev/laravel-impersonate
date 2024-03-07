@@ -6,7 +6,9 @@ use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Gate;
+use Pinetcodev\LaravelImpersonate\Contracts\Resolver;
 use Pinetcodev\LaravelImpersonate\ImpersonateManager;
 use Pinetcodev\LaravelImpersonate\Models\Impersonate;
 use Pinetcodev\LaravelImpersonate\Notifications\ImpersonationNotification;
@@ -32,13 +34,29 @@ class ImpersonateController extends Controller
         session()->put($this->getSessionKey(), $impersonate->getRouteKey());
         Auth::guard($this->getSessionGuard())->loginUsingId($impersonate->impersonated_id);
 
-        $impersonate->update([
+        $impersonate->update(array_merge([
             'logged_in' => now(),
-            'ip_address' => $request->ip(),
-            'user_agent' => $request->header('user-agent'),
-        ]);
+        ], $this->runResolvers()));
 
         return redirect()->to($this->getTakeRedirectTo());
+    }
+
+    private function runResolvers(): array
+    {
+        $resolved = [];
+        $resolvers = Config::get('impersonate.resolvers', []);
+        foreach ($resolvers as $name => $implementation) {
+            if (empty($implementation)) {
+                continue;
+            }
+
+            if (! is_subclass_of($implementation, Resolver::class)) {
+                throw new \Exception('Invalid Resolver implementation for: '.$name);
+            }
+            $resolved[$name] = call_user_func([$implementation, 'resolve'], $this);
+        }
+
+        return $resolved;
     }
 
     public function leave(Impersonate $impersonate)
