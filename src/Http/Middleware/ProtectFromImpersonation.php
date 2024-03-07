@@ -11,7 +11,7 @@ class ProtectFromImpersonation
      * Handle an incoming request.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return  mixed
+     * @return mixed
      */
     public function handle($request, Closure $next)
     {

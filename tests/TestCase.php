@@ -86,7 +86,7 @@ class TestCase extends Orchestra
     }
 
     /**
-     * @return  void
+     * @return void
      */
     protected function makeView(string $view = 'impersonate', array $with = [])
     {
@@ -95,7 +95,7 @@ class TestCase extends Orchestra
 
     /**
      * @param void
-     * @return  void
+     * @return void
      */
     protected function logout()
     {
